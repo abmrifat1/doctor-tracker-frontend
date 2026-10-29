@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://doctor-tracker-backend-18eacfem-abmrifat1.vercel.app/api', // 👈 তোমার লাইভ URL
+  baseURL: process.env.NEXT_PUBLIC_ENV === 'prod'
+    ? process.env.NEXT_PUBLIC_PROD_API_URL
+    : process.env.NEXT_PUBLIC_DEV_API_URL,
+  timeout: 30000,
 });
 
 api.interceptors.request.use((config) => {

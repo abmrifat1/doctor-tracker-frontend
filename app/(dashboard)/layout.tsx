@@ -1,8 +1,10 @@
+// app/(dashboard)/layout.tsx
 'use client';
+
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { logout } from '@/store/slices/authSlice';
+import { logout, setCredentials } from '@/store/slices/authSlice';
 import Link from 'next/link';
 import { LayoutDashboard, Stethoscope, Users, LogOut, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -16,9 +18,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+
+    if (storedToken && storedUser) {
+      dispatch(setCredentials({ token: storedToken, user: JSON.parse(storedUser) }));
+    } else {
+      router.push('/login');
+    }
     setIsMounted(true);
-    if (!token) router.push('/login');
-  }, [token, router]);
+  }, [dispatch, router]);
 
   if (!isMounted || !token) return null;
 
@@ -83,16 +92,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
           <div className="flex items-center gap-3">
             <div className="text-right hidden sm:block">
-              <p className="text-sm font-semibold text-slate-800">{user?.name}</p>
-              <p className="text-xs text-slate-500">{user?.email}</p>
+              <p className="text-sm font-semibold text-slate-800">{user?.name || 'Admin'}</p>
+              <p className="text-xs text-slate-500">{user?.email || ''}</p>
             </div>
             <div className="w-10 h-10 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-lg border border-blue-200">
-              {user?.name?.charAt(0)}
+              {user?.name?.charAt(0) || 'A'}
             </div>
           </div>
         </header>
 
-        {/* Page Content */}
         <div className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">
           {children}
         </div>

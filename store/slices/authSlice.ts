@@ -1,15 +1,16 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import api from '@/lib/axios';
+// store/slices/authSlice.ts
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AuthState, User } from '@/types';
+import { loginApi } from '@/services/authService';
 
 export const loginAdmin = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const res = await api.post('/auth/login', credentials);
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
-      return res.data as { user: User; token: string };
+      const data = await loginApi(credentials);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      return data as { user: User; token: string };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Login failed');
     }
@@ -17,8 +18,8 @@ export const loginAdmin = createAsyncThunk(
 );
 
 const initialState: AuthState = {
-  user: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || 'null') : null,
-  token: typeof window !== 'undefined' ? localStorage.getItem('token') : null,
+  user: null,
+  token: null,
   loading: false,
   error: null,
 };
@@ -27,6 +28,10 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setCredentials: (state, action) => {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+    },
     logout: (state) => {
       state.user = null;
       state.token = null;
@@ -49,5 +54,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { setCredentials, logout } = authSlice.actions; // setCredentials
 export default authSlice.reducer;
