@@ -20,3 +20,33 @@ export interface DashboardStats {
   dateStats: { date: string; count: number }[];
   conditionStats: { condition: string; count: number }[];
 }
+
+export interface Doctor {
+  _id: string;
+  name: string;
+  specialization: string;
+  hospital: string;
+  phone: string;
+  email: string;
+  createdAt: string;
+}
+
+export interface Patient {
+  _id: string;
+  name: string;
+  age: number;
+  condition: string;
+  phone?: string;
+  email?: string;
+  doctor: string | Doctor;
+  createdAt: string;
+}
+
+export interface DoctorResponse {
+  success: boolean;
+  count: number;
+  total: number;
+  page: number;
+  pages: number;
+  data: Doctor[];
+}
