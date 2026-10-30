@@ -69,9 +69,9 @@ export default function PatientTable({ patients, loading, page, pages, currentPa
 
       {pages > 1 && (
         <div className="flex justify-center items-center gap-4 mt-6">
-          <button disabled={currentPage === 1} onClick={() => setCurrentPage((p) => p - 1)} className="px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 hover:bg-slate-50">Previous</button>
+          <button disabled={currentPage === 1} onClick={() => setCurrentPage((p) => p - 1)} className="px-4 py-2 text-gray-700 bg-white border border-slate-300 rounded-lg disabled:opacity-50 hover:bg-slate-50">Previous</button>
           <span className="text-sm font-medium text-slate-600">Page {page} of {pages}</span>
-          <button disabled={currentPage === pages} onClick={() => setCurrentPage((p) => p + 1)} className="px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 hover:bg-slate-50">Next</button>
+          <button disabled={currentPage === pages} onClick={() => setCurrentPage((p) => p + 1)} className="px-4 py-2 text-gray-700 bg-white border border-slate-300 rounded-lg disabled:opacity-50 hover:bg-slate-50">Next</button>
         </div>
       )}
     </>

@@ -65,7 +65,7 @@ export default function DoctorTable({ doctors, loading, page, pages, currentPage
           <button
             disabled={currentPage === 1}
             onClick={() => setCurrentPage((p) => p - 1)}
-            className="px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 hover:bg-slate-50 transition"
+            className="px-4 text-gray-700 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 hover:bg-slate-50 transition"
           >
             Previous
           </button>
@@ -75,7 +75,7 @@ export default function DoctorTable({ doctors, loading, page, pages, currentPage
           <button
             disabled={currentPage === pages}
             onClick={() => setCurrentPage((p) => p + 1)}
-            className="px-4 py-2 bg-white border border-slate-300 rounded-lg disabled:opacity-50 hover:bg-slate-50 transition"
+            className="px-4 py-2 text-gray-700 bg-white border border-slate-300 rounded-lg disabled:opacity-50 hover:bg-slate-50 transition"
           >
             Next
           </button>
