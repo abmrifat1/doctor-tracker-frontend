@@ -1,4 +1,4 @@
-// components/doctors/ConfirmDeleteModal.tsx
+// components/doctors/modal/ConfirmDeleteModal.tsx
 import { AlertTriangle, X } from 'lucide-react';
 
 interface Props {

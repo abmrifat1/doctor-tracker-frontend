@@ -1,4 +1,4 @@
-// components/doctors/AddDoctorModal.tsx
+// components/doctors/modal/AddDoctorModal.tsx
 import { X } from 'lucide-react';
 
 interface Props {

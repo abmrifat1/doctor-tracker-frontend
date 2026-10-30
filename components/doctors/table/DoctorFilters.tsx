@@ -1,4 +1,4 @@
-// components/doctors/DoctorFilters.tsx
+// components/doctors/table/DoctorFilters.tsx
 import { Search } from 'lucide-react';
 
 interface Props {

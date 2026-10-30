@@ -31,6 +31,15 @@ export interface Doctor {
   createdAt: string;
 }
 
+export interface DoctorResponse {
+  success: boolean;
+  count: number;
+  total: number;
+  page: number;
+  pages: number;
+  data: Doctor[];
+}
+
 export interface Patient {
   _id: string;
   name: string;
@@ -42,11 +51,11 @@ export interface Patient {
   createdAt: string;
 }
 
-export interface DoctorResponse {
+export interface PatientResponse {
   success: boolean;
   count: number;
   total: number;
   page: number;
   pages: number;
-  data: Doctor[];
+  data: Patient[];
 }

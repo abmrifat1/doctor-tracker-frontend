@@ -1,4 +1,4 @@
-// components/doctors/DoctorTable.tsx
+// components/doctors/table/DoctorTable.tsx
 import { Trash2, UserPlus } from 'lucide-react';
 import { Doctor } from '@/types';
 

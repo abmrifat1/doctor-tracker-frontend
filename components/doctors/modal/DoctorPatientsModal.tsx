@@ -1,4 +1,4 @@
-// components/doctors/DoctorPatientsModal.tsx
+// components/doctors/modal/DoctorPatientsModal.tsx
 import { useEffect, useState } from 'react';
 import { X, UserPlus } from 'lucide-react';
 import { Doctor } from '@/types';
@@ -64,7 +64,7 @@ export default function DoctorPatientsModal({ isOpen, onClose, selectedDoctor }:
             <input type="number" placeholder="Age" required value={formData.age} onChange={(e) => setFormData({ ...formData, age: e.target.value })} className="p-2 border text-gray-900 rounded-lg text-sm outline-none focus:border-blue-500" />
             <input type="text" placeholder="Condition" required value={formData.condition} onChange={(e) => setFormData({ ...formData, condition: e.target.value })} className="p-2 border text-gray-900 rounded-lg text-sm outline-none focus:border-blue-500" />
             <input type="text" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="p-2 border text-gray-900 rounded-lg text-sm outline-none focus:border-blue-500" />
-            <input type="text" placeholder="Email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="p-2 border text-gray-900 rounded-lg text-sm outline-none focus:border-blue-500" />
+            <input type="email" placeholder="Email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="p-2 border text-gray-900 rounded-lg text-sm outline-none focus:border-blue-500" />
             <button type="submit" disabled={isAdding} className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
               {isAdding ? 'Adding...' : 'Add Patient'}
             </button>
