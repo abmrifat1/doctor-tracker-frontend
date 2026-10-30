@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Patient } from '@/types';
 import { getDoctorPatientsApi, addPatientToDoctorApi, getAllPatientsApi, updatePatientApi, deletePatientApi } from '@/services/patientService';
+import { fetchDashboardStats } from './dashboardSlice';
 
 export const fetchDoctorPatients = createAsyncThunk(
   'patients/fetchByDoctor',
@@ -16,11 +17,18 @@ export const fetchDoctorPatients = createAsyncThunk(
 
 export const addPatientToDoctor = createAsyncThunk(
   'patients/addToDoctor',
-  async ({ doctorId, data }: { doctorId: string; data: any }, { rejectWithValue }) => {
+  async ({ doctorId, data }: { doctorId: string; data: any }, { rejectWithValue, dispatch }) => {
     try {
-      return await addPatientToDoctorApi(doctorId, data);
+      const res = await addPatientToDoctorApi(doctorId, data);
+      dispatch(fetchDashboardStats());
+      return res;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to add patient');
+      const combinedError = [
+        error.response.data.message,
+        ...error.response.data.errors.map((err: { field: string, message: string }) => err?.message)
+      ].join(', ');
+
+      return rejectWithValue(combinedError || 'Failed to add patient');
     }
   }
 );
@@ -38,9 +46,11 @@ export const fetchAllPatients = createAsyncThunk(
 
 export const updatePatient = createAsyncThunk(
   'patients/update',
-  async ({ id, data }: { id: string; data: any }, { rejectWithValue }) => {
+  async ({ id, data }: { id: string; data: any }, { rejectWithValue, dispatch }) => {
     try {
-      return await updatePatientApi(id, data);
+      const res = await updatePatientApi(id, data);
+      dispatch(fetchDashboardStats());
+      return res;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to update patient');
     }
@@ -49,9 +59,10 @@ export const updatePatient = createAsyncThunk(
 
 export const deletePatient = createAsyncThunk(
   'patients/delete',
-  async (id: string, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue, dispatch }) => {
     try {
       await deletePatientApi(id);
+      dispatch(fetchDashboardStats());
       return id;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete patient');

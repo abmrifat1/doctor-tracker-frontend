@@ -10,12 +10,14 @@ import {
   AreaChart, Area
 } from 'recharts';
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 export default function DashboardPage() {
   const token = useAppSelector((state) => state.auth.token);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { stats, loading, error } = useAppSelector((state) => state.dashboard);
+  const pathname = usePathname();
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -31,6 +33,12 @@ export default function DashboardPage() {
       dispatch(fetchDashboardStats());
     }
   }, [dispatch, token, stats]);
+
+  useEffect(() => {
+    if (token && pathname === '/') {
+      dispatch(fetchDashboardStats());
+    }
+  }, [dispatch, token, pathname]);
 
   const chartData = useMemo(() => {
     if (!stats) return { doctors: [], dates: [] };

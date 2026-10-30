@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Doctor, DoctorResponse } from '@/types';
 import { getDoctorsApi, createDoctorApi, deleteDoctorApi } from '@/services/doctorService';
+import { fetchDashboardStats } from './dashboardSlice';
 
 export const fetchDoctors = createAsyncThunk(
   'doctors/fetchAll',
@@ -16,20 +17,27 @@ export const fetchDoctors = createAsyncThunk(
 
 export const addDoctor = createAsyncThunk(
   'doctors/add',
-  async (doctorData: any, { rejectWithValue }) => {
+  async (doctorData: any, { dispatch, rejectWithValue }) => {
     try {
-      return await createDoctorApi(doctorData);
+      const data = await createDoctorApi(doctorData);
+      dispatch(fetchDashboardStats());
+      return data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to create doctor');
+      const combinedError = [
+        error.response.data.message,
+        ...error.response.data.errors.map((err: { field: string, message: string }) => err?.message)
+      ].join(', ');
+      return rejectWithValue(combinedError || 'Failed to create doctor');
     }
   }
 );
 
 export const deleteDoctor = createAsyncThunk(
   'doctors/delete',
-  async (id: string, { rejectWithValue }) => {
+  async (id: string, { dispatch, rejectWithValue }) => {
     try {
       await deleteDoctorApi(id);
+      dispatch(fetchDashboardStats());
       return id;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete doctor');
