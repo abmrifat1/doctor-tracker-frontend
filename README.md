@@ -63,3 +63,28 @@ The application follows a decoupled Client-Server architecture:
   - Reason: Since the current scope does not include an appointment scheduling module, the "date-wise filtering" requirement was interpreted as filtering by the record's creation date (createdAt). This allows the admin to track when a doctor or patient was registered in the system within a specific timeframe. Compound indexes were added to the Mongoose schema to optimize these date-based queries.
 
 ## 6. Visual Evidence (Screenshots)
+### Desktop View
+<img width="1459" height="1011" alt="Screenshot from 2026-10-30 15-17-15" src="https://github.com/user-attachments/assets/999a8a1e-84c1-4af7-9ffd-f80170b17255" />
+<img width="1413" height="929" alt="Screenshot from 2026-10-30 15-37-30" src="https://github.com/user-attachments/assets/30ffd0b6-19d3-4d5d-a15e-0e1c58267f3e" />
+<img width="1415" height="934" alt="Screenshot from 2026-10-30 15-38-18" src="https://github.com/user-attachments/assets/f6203cda-d8b4-47b9-8171-496c6fb9acfa" />
+<img width="1408" height="932" alt="Screenshot from 2026-10-30 15-38-29" src="https://github.com/user-attachments/assets/a8bf9f93-cb2a-4657-b1ed-2e3aca180fe4" />
+<img width="1412" height="934" alt="Screenshot from 2026-10-30 15-38-43" src="https://github.com/user-attachments/assets/b0ecd5ee-7c1b-4212-8f4f-ba8b31ab2dc6" />
+<img width="1410" height="935" alt="Screenshot from 2026-10-30 15-39-05" src="https://github.com/user-attachments/assets/23e000db-10ab-47e4-a76c-8645bbfb227a" />
+<img width="1408" height="932" alt="Screenshot from 2026-10-30 15-41-10" src="https://github.com/user-attachments/assets/0f660693-ee0f-4f05-be76-048e039947f1" />
+<img width="1408" height="930" alt="Screenshot from 2026-10-30 15-41-29" src="https://github.com/user-attachments/assets/c9a8826c-6b06-4c31-899e-b2d838ae0f42" />
+<img width="1405" height="935" alt="Screenshot from 2026-10-30 15-41-55" src="https://github.com/user-attachments/assets/6db4c0c1-8474-446c-8662-718b10c660f0" />
+<img width="1412" height="933" alt="Screenshot from 2026-10-30 15-42-07" src="https://github.com/user-attachments/assets/565cafa0-68c9-47a7-830a-a179dcbe6b87" />
+
+### Mobile View
+<img width="361" height="747" alt="Screenshot from 2026-10-30 15-19-20" src="https://github.com/user-attachments/assets/0219f881-f456-4efe-b5d4-08e05ff1fcf5" />
+<img width="361" height="744" alt="Screenshot from 2026-10-30 15-37-59" src="https://github.com/user-attachments/assets/5a47166e-35d6-4f90-b365-5313a14f0229" />
+<img width="360" height="743" alt="Screenshot from 2026-10-30 15-39-25" src="https://github.com/user-attachments/assets/325c4eb4-9e23-4e81-b6cd-672cf62f41bd" />
+<img width="363" height="741" alt="Screenshot from 2026-10-30 15-39-40" src="https://github.com/user-attachments/assets/e85755c0-fc1c-4064-955f-114aca5200c1" />
+<img width="361" height="740" alt="Screenshot from 2026-10-30 15-40-29" src="https://github.com/user-attachments/assets/8c12fef1-a372-45ad-90db-bcd0e50002f3" />
+<img width="363" height="744" alt="Screenshot from 2026-10-30 15-43-00" src="https://github.com/user-attachments/assets/c9e44a3f-bb60-4e74-bf2e-afeddae8d3b3" />
+<img width="363" height="745" alt="Screenshot from 2026-10-30 15-43-12" src="https://github.com/user-attachments/assets/17f97066-2569-4855-b593-4fc61814d755" />
+<img width="362" height="743" alt="Screenshot from 2026-10-30 15-43-24" src="https://github.com/user-attachments/assets/6bdd3ebf-aa42-45ff-9a94-cb3ada0f8779" />
+<img width="362" height="739" alt="Screenshot from 2026-10-30 15-43-38" src="https://github.com/user-attachments/assets/220e8ef4-9122-45b9-a320-687f854ef2d5" />
+<img width="360" height="737" alt="Screenshot from 2026-10-30 15-55-04" src="https://github.com/user-attachments/assets/30368820-8126-4d39-9894-16faef3f3074" />
+
+
