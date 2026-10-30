@@ -8,10 +8,11 @@ import { Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Doctor } from '@/types';
 
-import DoctorFilters from '@/components/doctors/DoctorFilters';
-import DoctorTable from '@/components/doctors/DoctorTable';
-import AddDoctorModal from '@/components/doctors/AddDoctorModal';
-import DoctorPatientsModal from '@/components/doctors/DoctorPatientsModal';
+import DoctorFilters from '@/components/doctors/table/DoctorFilters';
+import DoctorTable from '@/components/doctors/table/DoctorTable';
+import AddDoctorModal from '@/components/doctors/modal/AddDoctorModal';
+import DoctorPatientsModal from '@/components/doctors/modal/DoctorPatientsModal';
+import ConfirmDeleteModal from '@/components/doctors/modal/ConfirmDeleteModal';
 
 export default function DoctorsPage() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,10 @@ export default function DoctorsPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isPatientModalOpen, setIsPatientModalOpen] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [formData, setFormData] = useState({ name: '', specialization: '', hospital: '', phone: '', email: '' });
 
@@ -64,14 +69,23 @@ export default function DoctorsPage() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this doctor? All associated patients will be deleted.')) {
-      const res = await dispatch(deleteDoctor(id));
-      if (deleteDoctor.fulfilled.match(res)) {
-        toast.success('Doctor deleted');
-      } else {
-        toast.error(res.payload as string);
-      }
+  const openDeleteModal = (id: string) => {
+    setDeleteId(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteId) return;
+    setIsDeleting(true);
+    const res = await dispatch(deleteDoctor(deleteId));
+    setIsDeleting(false);
+
+    if (deleteDoctor.fulfilled.match(res)) {
+      toast.success('Doctor deleted');
+      setIsDeleteModalOpen(false);
+      setDeleteId(null);
+    } else {
+      toast.error(res.payload as string);
     }
   };
 
@@ -118,25 +132,38 @@ export default function DoctorsPage() {
         pages={pages}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        onDelete={handleDelete}
+        onDelete={openDeleteModal}
         onManagePatients={handleManagePatients}
       />
 
       {/* Add Doctor Modal Component */}
-      <AddDoctorModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        formData={formData}
-        setFormData={setFormData}
-        onSubmit={handleAddDoctor}
-      />
+      {isAddModalOpen &&
+        <AddDoctorModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={handleAddDoctor}
+        />
+      }
 
       {/* Patient Modal Component */}
-      <DoctorPatientsModal
-        isOpen={isPatientModalOpen}
-        onClose={() => setIsPatientModalOpen(false)}
-        selectedDoctor={selectedDoctor}
-      />
+      {isPatientModalOpen &&
+        <DoctorPatientsModal
+          isOpen={isPatientModalOpen}
+          onClose={() => setIsPatientModalOpen(false)}
+          selectedDoctor={selectedDoctor}
+        />
+      }
+
+      {isDeleteModalOpen &&
+        <ConfirmDeleteModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={handleConfirmDelete}
+          isLoading={isDeleting}
+        />
+      }
     </div>
   );
 }

@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import dashboardReducer from './slices/dashboardSlice';
 import doctorReducer from './slices/doctorSlice';
+import patientReducer from './slices/patientSlice'; 
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     dashboard: dashboardReducer,
     doctors: doctorReducer,
+    patients: patientReducer,
   },
 });
 
