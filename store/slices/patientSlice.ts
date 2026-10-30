@@ -128,6 +128,8 @@ const patientSlice = createSlice({
       .addCase(deletePatient.fulfilled, (state, action) => {
         state.allPatients = state.allPatients.filter(p => p._id !== action.payload);
         state.total -= 1;
+
+        state.patients = state.patients.filter(p => p._id !== action.payload);
       });
   },
 });

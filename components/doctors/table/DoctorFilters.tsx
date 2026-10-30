@@ -1,5 +1,6 @@
 // components/doctors/table/DoctorFilters.tsx
 import { Search } from 'lucide-react';
+import { SPECIALIZATIONS } from '@/constants';
 
 interface Props {
   search: string;
@@ -11,7 +12,6 @@ interface Props {
   dateTo: string;
   setDateTo: (val: string) => void;
   setCurrentPage: (val: number) => void;
-  specializations: string[];
 }
 
 export default function DoctorFilters({
@@ -20,7 +20,6 @@ export default function DoctorFilters({
   dateFrom, setDateFrom,
   dateTo, setDateTo,
   setCurrentPage,
-  specializations
 }: Props) {
   return (
     <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -50,7 +49,7 @@ export default function DoctorFilters({
           className="w-full text-gray-600 px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 text-sm text-slate-700"
         >
           <option value="">All Specializations</option>
-          {specializations?.map((spec, index) => (
+          {SPECIALIZATIONS?.map((spec, index) => (
             <option key={index} value={spec}>{spec}</option>
           ))}
         </select>
@@ -58,7 +57,7 @@ export default function DoctorFilters({
 
       {/* Date From */}
       <div className="md:col-span-1 flex flex-col">
-        <label className="text-xs text-slate-500 mb-1 ml-1">From Date</label>
+        <label className="text-xs text-slate-500 mb-1 ml-1">Joined From</label>
         <input
           type="date"
           value={dateFrom}
@@ -69,7 +68,7 @@ export default function DoctorFilters({
 
       {/* Date To */}
       <div className="md:col-span-1 flex flex-col">
-        <label className="text-xs text-slate-500 mb-1 ml-1">To Date</label>
+        <label className="text-xs text-slate-500 mb-1 ml-1">Joined To</label>
         <input
           type="date"
           value={dateTo}

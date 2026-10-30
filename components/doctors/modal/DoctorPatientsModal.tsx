@@ -1,18 +1,20 @@
 // components/doctors/modal/DoctorPatientsModal.tsx
 import { useEffect, useState } from 'react';
-import { X, UserPlus } from 'lucide-react';
+import { X, UserPlus, Trash2 } from 'lucide-react';
 import { Doctor } from '@/types';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchDoctorPatients, addPatientToDoctor } from '@/store/slices/patientSlice';
 import toast from 'react-hot-toast';
+import { CONDITIONS } from '@/constants';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   selectedDoctor: Doctor | null;
+  onDelete: (id: string) => void;
 }
 
-export default function DoctorPatientsModal({ isOpen, onClose, selectedDoctor }: Props) {
+export default function DoctorPatientsModal({ isOpen, onClose, selectedDoctor, onDelete }: Props) {
   const dispatch = useAppDispatch();
   const { patients, loading } = useAppSelector((state) => state.patients);
 
@@ -62,10 +64,19 @@ export default function DoctorPatientsModal({ isOpen, onClose, selectedDoctor }:
           <form onSubmit={handleAddPatient} className="grid grid-cols-1 md:grid-cols-5 gap-3">
             <input type="text" placeholder="Name" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="p-2 border text-gray-900 rounded-lg text-sm outline-none focus:border-blue-500" />
             <input type="number" placeholder="Age" required value={formData.age} onChange={(e) => setFormData({ ...formData, age: e.target.value })} className="p-2 border text-gray-900 rounded-lg text-sm outline-none focus:border-blue-500" />
-            <input type="text" placeholder="Condition" required value={formData.condition} onChange={(e) => setFormData({ ...formData, condition: e.target.value })} className="p-2 border text-gray-900 rounded-lg text-sm outline-none focus:border-blue-500" />
+            <select
+              required
+              value={formData.condition}
+              onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
+              className="p-2 border rounded-lg text-sm outline-none focus:border-blue-500 text-slate-700">
+              <option value="" disabled>Condition</option>
+              {CONDITIONS.map((cond) => (
+                <option key={cond} value={cond}>{cond}</option>
+              ))}
+            </select>
             <input type="text" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="p-2 border text-gray-900 rounded-lg text-sm outline-none focus:border-blue-500" />
             <input type="email" placeholder="Email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="p-2 border text-gray-900 rounded-lg text-sm outline-none focus:border-blue-500" />
-            <button type="submit" disabled={isAdding} className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
+            <button type="submit" disabled={isAdding} className="md:col-span-5 md:justify-self-end px-4 py-2 bg-blue-600 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
               {isAdding ? 'Adding...' : 'Add Patient'}
             </button>
           </form>
@@ -80,6 +91,7 @@ export default function DoctorPatientsModal({ isOpen, onClose, selectedDoctor }:
                 <th className="p-3 font-semibold">Age</th>
                 <th className="p-3 font-semibold">Condition</th>
                 <th className="p-3 font-semibold">Contact</th>
+                <th className="p-4 font-semibold text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -96,6 +108,11 @@ export default function DoctorPatientsModal({ isOpen, onClose, selectedDoctor }:
                     <td className="p-3 text-slate-500 text-sm">
                       {patient.phone && <p>{patient.phone}</p>}
                       {patient.email && <p>{patient.email}</p>}
+                    </td>
+                    <td className="p-3 text-slate-500 text-right text-sm">
+                      <button onClick={() => onDelete(patient._id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete Patient">
+                        <Trash2 size={18} />
+                      </button>
                     </td>
                   </tr>
                 ))

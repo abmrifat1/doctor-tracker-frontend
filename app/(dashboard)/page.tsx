@@ -47,7 +47,7 @@ export default function DashboardPage() {
       </div>
     );
   }
-  
+
   if (loading) {
     return (
       <div className="flex h-[70vh] items-center justify-center">
@@ -109,15 +109,18 @@ export default function DashboardPage() {
             <h3 className="text-lg font-semibold text-slate-800">Top Doctors by Patients</h3>
           </div>
           <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData.doctors} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                <XAxis dataKey="doctorName" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-                <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-                <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', color: 'black' }} />
-                <Bar dataKey="count" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={40} />
-              </BarChart>
-            </ResponsiveContainer>
+            {chartData.doctors?.length > 0 ?
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData.doctors} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <XAxis dataKey="doctorName" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+                  <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+                  <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', color: 'black' }} />
+                  <Bar dataKey="count" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={40} />
+                </BarChart>
+              </ResponsiveContainer> :
+              <div className='text-orange-500'>No Doctor Joined</div>
+            }
           </div>
         </div>
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
@@ -126,21 +129,24 @@ export default function DashboardPage() {
             <h3 className="text-lg font-semibold text-slate-800">Patient Registration Trend</h3>
           </div>
           <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData.dates} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                <XAxis dataKey="date" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-                <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-                <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', color: 'black' }} />
-                <Area type="monotone" dataKey="count" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorCount)" />
-              </AreaChart>
-            </ResponsiveContainer>
+            {chartData.dates?.length > 0 ?
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData.dates} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <XAxis dataKey="date" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+                  <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+                  <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', color: 'black' }} />
+                  <Area type="monotone" dataKey="count" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorCount)" />
+                </AreaChart>
+              </ResponsiveContainer> :
+              <div className='text-orange-500'>No Patients Registered</div>
+            }
           </div>
         </div>
       </div>

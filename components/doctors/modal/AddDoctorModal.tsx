@@ -1,5 +1,6 @@
 // components/doctors/modal/AddDoctorModal.tsx
 import { X } from 'lucide-react';
+import { SPECIALIZATIONS } from '@/constants';
 
 interface Props {
   isOpen: boolean;
@@ -21,7 +22,16 @@ export default function AddDoctorModal({ isOpen, onClose, formData, setFormData,
         </div>
         <form onSubmit={onSubmit} className="space-y-4">
           <input type="text" placeholder="Full Name" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full p-3 border rounded-xl text-gray-600 outline-none focus:border-blue-500" />
-          <input type="text" placeholder="Specialization (e.g. Cardiology)" required value={formData.specialization} onChange={(e) => setFormData({ ...formData, specialization: e.target.value })} className="w-full text-gray-600 p-3 border rounded-xl outline-none focus:border-blue-500" />
+          <select
+            required
+            value={formData.specialization}
+            onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
+            className="w-full p-3 border rounded-xl outline-none focus:border-blue-500 text-slate-700">
+            <option value="" disabled>Select Specialization</option>
+            {SPECIALIZATIONS.map((spec) => (
+              <option key={spec} value={spec}>{spec}</option>
+            ))}
+          </select>
           <input type="text" placeholder="Hospital Name" required value={formData.hospital} onChange={(e) => setFormData({ ...formData, hospital: e.target.value })} className="w-full text-gray-600 p-3 border rounded-xl outline-none focus:border-blue-500" />
           <input type="text" placeholder="Phone Number" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full text-gray-600 p-3 border rounded-xl outline-none focus:border-blue-500" />
           <input type="email" placeholder="Email Address" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full text-gray-600 p-3 border rounded-xl outline-none focus:border-blue-500" />

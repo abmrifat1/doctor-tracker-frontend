@@ -13,6 +13,8 @@ import DoctorTable from '@/components/doctors/table/DoctorTable';
 import AddDoctorModal from '@/components/doctors/modal/AddDoctorModal';
 import DoctorPatientsModal from '@/components/doctors/modal/DoctorPatientsModal';
 import ConfirmDeleteModal from '@/components/doctors/modal/ConfirmDeleteModal';
+import ConfirmPatientDeleteModal from '../../../components/patients/modal/ConfirmPatientDeleteModal';
+import { deletePatient } from '../../../store/slices/patientSlice';
 
 export default function DoctorsPage() {
   const dispatch = useAppDispatch();
@@ -32,6 +34,10 @@ export default function DoctorsPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const [isPatientDeleteModalOpen, setIsPatientDeleteModalOpen] = useState(false);
+  const [deletePatientId, setDeletePatientId] = useState<string | null>(null);
+  const [isPatientDeleting, setIsPatientDeleting] = useState(false);
+
   const [formData, setFormData] = useState({ name: '', specialization: '', hospital: '', phone: '', email: '' });
 
   const fetchData = useCallback(() => {
@@ -49,12 +55,6 @@ export default function DoctorsPage() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const uniqueSpecializations = useMemo(() => {
-    if (!doctors || doctors?.length === 0) return [];
-    const specs = doctors.map((doc) => doc.specialization).filter(Boolean);
-    return Array.from(new Set(specs)).sort();
-  }, [doctors]);
 
   const handleAddDoctor = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,6 +84,22 @@ export default function DoctorsPage() {
       toast.success('Doctor deleted');
       setIsDeleteModalOpen(false);
       setDeleteId(null);
+    } else {
+      toast.error(res.payload as string);
+    }
+  };
+
+  // Patient Delete Confirm
+  const handleConfirmPatientDelete = async () => {
+    if (!deletePatientId) return;
+    setIsPatientDeleting(true);
+    const res = await dispatch(deletePatient(deletePatientId));
+    setIsPatientDeleting(false);
+
+    if (deletePatient.fulfilled.match(res)) {
+      toast.success('Patient deleted');
+      setIsPatientDeleteModalOpen(false);
+      setDeletePatientId(null);
     } else {
       toast.error(res.payload as string);
     }
@@ -121,7 +137,6 @@ export default function DoctorsPage() {
         dateTo={dateTo}
         setDateTo={setDateTo}
         setCurrentPage={setCurrentPage}
-        specializations={uniqueSpecializations}
       />
 
       {/* Table Component */}
@@ -153,6 +168,7 @@ export default function DoctorsPage() {
           isOpen={isPatientModalOpen}
           onClose={() => setIsPatientModalOpen(false)}
           selectedDoctor={selectedDoctor}
+          onDelete={(id) => { setDeletePatientId(id); setIsPatientDeleteModalOpen(true); }}
         />
       }
 
@@ -164,6 +180,14 @@ export default function DoctorsPage() {
           isLoading={isDeleting}
         />
       }
+
+      {isPatientDeleteModalOpen &&
+        <ConfirmPatientDeleteModal
+          isOpen={isPatientDeleteModalOpen}
+          onClose={() => setIsPatientDeleteModalOpen(false)}
+          onConfirm={handleConfirmPatientDelete}
+          isLoading={isPatientDeleting}
+        />}
     </div>
   );
 }

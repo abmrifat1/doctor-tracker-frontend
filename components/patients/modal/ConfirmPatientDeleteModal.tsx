@@ -8,7 +8,7 @@ interface Props {
   isLoading: boolean;
 }
 
-export default function ConfirmDeleteModal({ isOpen, onClose, onConfirm, isLoading }: Props) {
+export default function ConfirmPatientDeleteModal({ isOpen, onClose, onConfirm, isLoading }: Props) {
   if (!isOpen) return null;
 
   return (

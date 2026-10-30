@@ -10,7 +10,7 @@ import { Patient } from '@/types';
 import PatientFilters from '@/components/patients/table/PatientFilters';
 import PatientTable from '@/components/patients/table/PatientTable';
 import EditPatientModal from '@/components/patients/modal/EditPatientModal';
-import ConfirmDeleteModal from '@/components/patients/modal/ConfirmDeleteModal'; // রিইউজ করা হলো
+import ConfirmPatientDeleteModal from '@/components/patients/modal/ConfirmPatientDeleteModal'; // রিইউজ করা হলো
 
 export default function PatientsPage() {
   const dispatch = useAppDispatch();
@@ -105,7 +105,7 @@ export default function PatientsPage() {
         onSave={handleUpdatePatient}
       />
 
-      <ConfirmDeleteModal
+      <ConfirmPatientDeleteModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}

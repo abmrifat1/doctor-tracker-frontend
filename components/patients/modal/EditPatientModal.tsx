@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Patient } from '@/types';
+import { CONDITIONS } from '@/constants';
 
 interface Props {
   isOpen: boolean;
@@ -45,7 +46,16 @@ export default function EditPatientModal({ isOpen, onClose, patient, onSave }: P
         <form onSubmit={handleSubmit} className="space-y-4">
           <input type="text" placeholder="Full Name" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full text-gray-600 p-3 border rounded-xl outline-none focus:border-blue-500" />
           <input type="number" placeholder="Age" required value={formData.age} onChange={(e) => setFormData({ ...formData, age: e.target.value })} className="w-full text-gray-600 p-3 border rounded-xl outline-none focus:border-blue-500" />
-          <input type="text" placeholder="Condition" required value={formData.condition} onChange={(e) => setFormData({ ...formData, condition: e.target.value })} className="w-full text-gray-600 p-3 border rounded-xl outline-none focus:border-blue-500" />
+          <select
+            required
+            value={formData.condition}
+            onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
+            className="w-full p-3 border rounded-xl outline-none focus:border-blue-500 text-slate-700">
+            <option value="" disabled>Select Condition</option>
+            {CONDITIONS.map((cond) => (
+              <option key={cond} value={cond}>{cond}</option>
+            ))}
+          </select>
           <input type="text" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full text-gray-600 p-3 border rounded-xl outline-none focus:border-blue-500" />
           <input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full text-gray-600 p-3 border rounded-xl outline-none focus:border-blue-500" />
           <button type="submit" disabled={isSaving} className="w-full py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition disabled:opacity-50">

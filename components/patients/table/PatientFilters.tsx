@@ -1,5 +1,6 @@
 // components/patients/table/PatientFilters.tsx
 import { Search } from 'lucide-react';
+import { CONDITIONS } from '@/constants';
 
 interface Props {
   search: string; setSearch: (val: string) => void;
@@ -29,17 +30,20 @@ export default function PatientFilters({
       <div className="md:col-span-1">
         <label className="text-xs text-slate-500 mb-1 ml-1">Filter Condition</label>
         <select value={condition} onChange={(e) => { setCondition(e.target.value); setCurrentPage(1); }} className="w-full text-gray-600 px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 text-sm text-slate-700">
-
+          <option value="">All Conditions</option>
+          {CONDITIONS.map((cond) => (
+            <option key={cond} value={cond}>{cond}</option>
+          ))}
         </select>
       </div>
 
       <div className="md:col-span-1 flex flex-col">
-        <label className="text-xs text-slate-500 mb-1 ml-1">From Date</label>
+        <label className="text-xs text-slate-500 mb-1 ml-1">Registered From</label>
         <input type="date" value={dateFrom} onChange={(e) => { setDateFrom(e.target.value); setCurrentPage(1); }} className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 text-sm text-slate-700" />
       </div>
 
       <div className="md:col-span-1 flex flex-col">
-        <label className="text-xs text-slate-500 mb-1 ml-1">To Date</label>
+        <label className="text-xs text-slate-500 mb-1 ml-1">Registered To</label>
         <input type="date" value={dateTo} onChange={(e) => { setDateTo(e.target.value); setCurrentPage(1); }} className="w-full px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 text-sm text-slate-700" />
       </div>
     </div>
