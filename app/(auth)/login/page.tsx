@@ -18,7 +18,7 @@ export default function LoginPage() {
     const res = await dispatch(loginAdmin({ email, password }));
     if (loginAdmin.fulfilled.match(res)) {
       toast.success('Welcome back!');
-      router.push('/');
+      window.location.href = '/';
     } else {
       toast.error(res.payload as string);
     }
